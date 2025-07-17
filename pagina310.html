@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O Enigma - III</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #ccc;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        #top-message {
+            position: absolute;
+            top: 5%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 6em;
+            font-weight: bold;
+            color: #990000; 
+            text-shadow: 
+                0 0 5px #d4af37,
+                0 0 10px #d4af37,
+                0 0 20px #d4af37,
+                0 0 30px #d4af37; /* SEM AJUDA */
+            animation: flashAndFade 5s forwards ease-in-out;
+            z-index: 10;
+        }
+
+        #enigma-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            opacity: 0; /* TÁ PERDENDO TEMPO */
+            transition: opacity 2s ease-in;
+        }
+
+        #empire-list {
+            font-size: 2em;
+            margin-bottom: 30px;
+        }
+
+        #input-area {
+            text-align: center;
+        }
+
+        #answer-input {
+            padding: 12px;
+            font-size: 1.1em;
+            text-align: center;
+            background-color: #1a1a1a;
+            color: #ccc;
+            border: 1px solid #444;
+            border-radius: 5px;
+            width: 250px;
+        }
+
+        #submit-button {
+            padding: 12px 22px;
+            font-size: 1.1em;
+            background-color: #990000;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        #feedback {
+            color: #990000;
+            margin-top: 15px;
+            height: 20px;
+            font-size: 1em;
+        }
+
+        /* PERDENDO MUITO TEMPO */
+        @keyframes flashAndFade {
+            0% {
+                opacity: 1;
+                transform: translateX(-50%) scale(1.1);
+            }
+            80% {
+                opacity: 1;
+                transform: translateX(-50%) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateX(-50%) scale(0.9);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1 id="top-message">IMPERIO</h1>
+
+    <div id="enigma-container">
+        <p id="empire-list">Maias - akkadû - nešili - 𓇓 𓈖 𓆎𓅓𓏏 - Rōmānum</p>
+        <div id="input-area">
+            <input type="text" id="answer-input" autocomplete="off">
+            <button id="submit-button">Decifrar</button>
+        </div>
+        <p id="feedback"></p>
+    </div>
+
+    <audio id="background-music" src="paradeler.mp3" loop autoplay></audio>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const topMessage = document.getElementById('top-message');
+            const enigmaContainer = document.getElementById('enigma-container');
+            const backgroundMusic = document.getElementById('background-music');
+            const answerInput = document.getElementById('answer-input');
+            const submitButton = document.getElementById('submit-button');
+            const feedback = document.getElementById('feedback');
+
+            // Nada nos codigo, a não ser CODIGO
+            backgroundMusic.volume = 0.5;
+            backgroundMusic.play().catch(error => {
+                console.log("Música aguardando interação do usuário.", error);
+                document.body.addEventListener('click', () => backgroundMusic.play(), { once: true });
+            });
+
+            setTimeout(() => {
+                topMessage.style.display = 'none';
+                enigmaContainer.style.opacity = 1;
+            }, 5000);
+
+            function checkAnswer() {
+                // O cara não faz o enigma e quer decifrar isso ainda?
+                const dadosSecretos = [123, 125, 123, 105, 107];
+                const salto = 8;
+
+                const respostaCorreta = dadosSecretos.map(codigo => String.fromCharCode(codigo - salto)).reverse().join('');
+
+                const userAnswer = answerInput.value.trim().toLowerCase();
+                
+                if (userAnswer === respostaCorreta) {
+                    feedback.textContent = 'Decifrado. Prosseguindo...';
+                    feedback.style.color = '#00ff00';
+                    setTimeout(() => {
+                        window.location.href = 'pagina410.html';
+                    }, 1500);
+                } else {
+                    feedback.textContent = 'Sequência Incorreta.';
+                    answerInput.value = '';
+                }
+            }
+            
+            submitButton.addEventListener('click', checkAnswer);
+            answerInput.addEventListener('keyup', event => {
+                if (event.key === 'Enter') {
+                    checkAnswer();
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

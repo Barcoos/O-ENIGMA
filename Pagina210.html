@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O Enigma - II</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #d4af37; 
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;                                   /* conhece o Enigma né? */
+            overflow: hidden;
+        }
+
+        #sator-square {
+            border-collapse: collapse;
+            opacity: 0;
+            animation: fadeIn 3s forwards;
+            animation-delay: 0.5s; 
+        }
+
+        #sator-square td {
+            border: 3px solid #d4af37;                    /* carente de conversa? */
+            width: 100px;
+            height: 100px;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 3.5em;
+            font-weight: bold;
+        }                                  /* Não deixei pista nos codigos "SOME" */
+
+
+        #sator-square a {
+            color: inherit; 
+            text-decoration: none; 
+            display: block; /* Curiosidade matou o Gato */
+            width: 100%;
+            height: 100%;
+            line-height: 100px; 
+            transition: all 0.3s ease;
+        }
+
+        /* Dica "saia daqui" */
+        #sator-square a:hover {
+            background-color: rgba(212, 175, 55, 0.1);
+            color: #fff;
+            text-shadow: 0 0 15px #fff;
+            cursor: pointer;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <table id="sator-square">
+        <tbody>
+            <tr>
+                <td>S</td>
+                <td>A</td>
+                <td>T</td>
+                <td>O</td>
+                <td>R</td>          
+            </tr>
+            <tr>
+                <td>A</td>
+                <td>R</td>
+                <td>E</td>
+                <td>P</td>
+                <td>O</td>
+            </tr>
+            <tr>
+                <td>T</td>
+                <td>E</td>
+                <td><a href="pagina310.html">N</a></td>
+                <td>E</td>
+                <td>T</td>
+            </tr>
+            <tr>
+                <td>O</td>
+                <td>P</td>
+                <td>E</td>
+                <td>R</td>
+                <td>A</td>
+            </tr>
+            <tr>
+                <td>R</td>
+                <td>O</td>
+                <td>T</td>
+                <td>A</td>
+                <td>S</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <audio id="background-music" src="paradeler.mp3" loop autoplay></audio>
+
+    <script>
+        // Some daqui filho, não tem nada para você SÓ VAI NO NNNNN
+        document.addEventListener('DOMContentLoaded', () => {
+            const backgroundMusic = document.getElementById('background-music');
+            backgroundMusic.volume = 0.5; // Não esquece o volumeee
+            backgroundMusic.play().catch(error => {
+
+                console.log("A música precisa de interação do usuário para tocar.", error);
+                document.body.addEventListener('click', () => {
+                    backgroundMusic.play();
+                }, { once: true });       // PARABENS VOCÊ CHEGOU AQUI E SUA RECOMPENSA ÉÉÉÉÉÉÉÉÉÉÉÉÉÉÉÉÉÉÉ. NADA
+            });
+        });
+    </script>
+
+</body>
+</html>

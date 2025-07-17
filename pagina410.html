@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finis</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #ccc;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        #enigma-container, #final-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            transition: opacity 2s ease-in-out;
+        }
+
+        #enigma-container h1 {
+            font-size: 1.5em;
+            color: #888;
+        }
+
+        #enigma-container p {
+            font-size: 1.2em;
+            font-style: italic;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        #input-area { text-align: center; }
+        #answer-input { padding: 12px; font-size: 1.1em; text-align: center; background-color: #1a1a1a; color: #ccc; border: 1px solid #444; border-radius: 5px; width: 250px; }
+        #submit-button { padding: 12px 22px; font-size: 1.1em; background-color: #990000; color: #fff; border: none; border-radius: 5px; cursor: pointer; margin-left: 10px; }
+        #feedback { color: #990000; margin-top: 15px; height: 20px; font-size: 1em; }
+
+        #final-screen {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none; /* NÃO TEM AJUDA */
+        }
+
+        #final-word {
+            font-size: 6em; /* NÃO */
+            font-weight: bold;
+            color: #c00; /* NÃO */
+            text-shadow: 0 0 15px #c00;
+            transition: opacity 3s ease-in-out;
+        }
+
+        #final-message {
+            font-size: 2em;
+            font-style: italic;
+            color: #888;
+            opacity: 0;
+            transition: opacity 4s ease-in-out;
+        }
+
+    </style>
+</head>
+                                  
+<body>
+
+    <div id="enigma-container">
+        <h1>O Primeiro Cônsul deixou uma mensagem final.</h1>
+        <p>"Ibi Victoria, ubi Concordia."</p>               
+
+        <div id="input-area">
+            <input type="text" id="answer-input" autocomplete="off">
+            <button id="submit-button">Finalizar</button>
+        </div>
+        <p id="feedback"></p>
+    </div>
+
+    <div id="final-screen">
+        <div id="final-word"></div>
+        <p id="final-message"></p>
+    </div>
+
+    <audio id="background-music" src="parademeler.mp3" loop autoplay></audio>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {                                                                                      // Use a arma que foi usada para proteger os imperios
+            const enigmaContainer = document.getElementById('enigma-container');                                                                   // Não esqueça o Quadrado  
+            const backgroundMusic = document.getElementById('background-music');                                                                   // xtqifitx
+            const answerInput = document.getElementById('answer-input');      
+            const submitButton = document.getElementById('submit-button');
+            const feedback = document.getElementById('feedback');                                                                                  
+
+            // Não
+            backgroundMusic.volume = 0.5;
+            backgroundMusic.play().catch(e => {
+                document.body.addEventListener('click', () => backgroundMusic.play(), { once: true });
+            });
+
+            function checkAnswer() {
+                //O enigma é mais divertido que isso
+                const QuemMexerÉviado = [118, 114, 103, 100, 103, 111, 114, 118];
+                const salto = 3;
+                const respostaCorreta = QuemMexerÉviado.map(c => String.fromCharCode(c - salto)).reverse().join('');
+
+                const userAnswer = answerInput.value.trim().toLowerCase()
+                    .replace(/[áàâã]/g, 'a')
+                    .replace(/[éèê]/g, 'e')
+                    .replace(/[íìî]/g, 'i')
+                    .replace(/[óòôõ]/g, 'o')
+                    .replace(/[úùû]/g, 'u')
+                    .replace(/[ç]/g, 'c');
+                
+                if (userAnswer === respostaCorreta) {
+                    feedback.textContent = ''; 
+                    triggerEndSequence("Gloria"); 
+                } else {
+                    feedback.textContent = '...';
+                    answerInput.value = '';
+                }
+            }
+
+            function triggerEndSequence(finalWord) {
+                const finalScreen = document.getElementById('final-screen');
+                const finalWordEl = document.getElementById('final-word');
+                const finalMessageEl = document.getElementById('final-message');
+
+                enigmaContainer.style.opacity = 0;
+
+                let musicFade = setInterval(() => {
+                    if (backgroundMusic.volume > 0.01) {
+                        backgroundMusic.volume -= 0.01;
+                    } else {
+                        backgroundMusic.volume = 0;
+                        backgroundMusic.pause();
+                        clearInterval(musicFade);
+                    }
+                }, 80);
+
+                setTimeout(() => {
+                    finalWordEl.textContent = finalWord;
+                    finalScreen.style.opacity = 1;
+
+                    setTimeout(() => {
+                        finalWordEl.style.opacity = 0;
+                        finalMessageEl.textContent = "Mortuis qui Historiam fecerum";
+                        finalMessageEl.style.opacity = 1;
+                    }, 4000);
+
+                }, 2000);
+            }
+            
+            submitButton.addEventListener('click', checkAnswer);
+            answerInput.addEventListener('keyup', e => { if (e.key === 'Enter') checkAnswer(); });                                                                                                                                                                 // serei do bem, Criptogra.. Contexto.. Histo...
+        });
+    </script>
+
+</body>
+</html>
